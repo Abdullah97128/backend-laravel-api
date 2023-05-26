@@ -1,0 +1,55 @@
+version: "3.7"
+services:
+  app:
+    build:
+      args:
+        user: sammy
+        uid: 1000
+      context: ./
+      dockerfile: Dockerfile
+    image: newsaggregator
+    container_name: newsaggregator-app
+    restart: unless-stopped
+    working_dir: /var/www/
+    volumes:
+      - ./:/var/www
+    networks:
+      - newsaggregator
+
+  db:
+    image: mysql
+    container_name: newsaggregator_db
+    ports:
+      - "3307:3307"
+    restart: unless-stopped
+    environment:
+      - MYSQL_DATABASE=aggregator-news
+      - MYSQL_ROOT_PASSWORD=password
+    volumes:
+      - ./docker-compose/mysql:/docker-entrypoint-initdb.d
+    networks:
+      - newsaggregator
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: phpmyadmin
+    ports:
+      - "3400:80"
+    depends_on:
+      - db
+
+  nginx:
+    image: nginx:alpine
+    container_name: newsaggregator-nginx
+    restart: unless-stopped
+    ports:
+      - 8000:80
+    volumes:
+      - ./:/var/www
+      - ./docker-compose/nginx:/etc/nginx/conf.d/
+    networks:
+      - newsaggregator
+
+networks:
+  newsaggregator:
+    driver: bridge
