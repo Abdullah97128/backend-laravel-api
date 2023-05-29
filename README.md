@@ -8,6 +8,11 @@
 </p>
 
 ## About Laravel
+docker build --build-arg user=sammy --build-arg uid=1000 -t backend-laravel-api directory-of-project
+
+docker run -d -p 3000:3000 react-new-app
+
+## About Laravel
 
 Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
 
