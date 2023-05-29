@@ -7,7 +7,7 @@
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
 </p>
 
-## About Laravel
+# Run using docker
 docker build --build-arg user=sammy --build-arg uid=1000 -t backend-laravel-api directory-of-project
 
 docker run -d -p 3000:3000 react-new-app
